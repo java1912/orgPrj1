@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yueqian.spBootMybatis.mapper.EmpMapper">
+	<resultMap type="EmpVO" id="empMapper">
+		<id property="empno" column="empno"/>
+		<result property="name" column="ename"/>
+		<result property="job" column="job"/>
+		<result property="hiredate" column="hiredate"/>
+		<result property="mgr" column="mgr"/>
+		<result property="sal" column="sal"/>
+		<result property="comm" column="comm"/>
+		<result property="deptno" column="deptno"/>
+	</resultMap>
+
+	<select id="getEmps" resultMap="empMapper">
+		select empno,ename,job,mgr,hiredate,sal,comm,deptno from emp
+	</select>
+	
+	<select id="getEmpById" resultMap="empMapper" parameterType="_int">
+		select empno,ename,job,mgr,hiredate,sal,comm,deptno from emp where empno = #{eno}
+	</select>
+	
+	
+</mapper>

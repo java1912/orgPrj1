@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+	.c1 {
+		background-color: green;
+	}
+	.c2 {
+		background-color: yellow;
+	}
+	
+</style>
+</head>
+<body>
+
+	<span th:text="#{user.name}">span Text</span><br/>
+	<span th:text="#{user.pwd}">>span Text</span><br/>
+	
+	变量表达式 ：<br/>
+	取后台attribute传递过来的数据：<span th:text="${key1}">sp</span> <br/>
+	取后台attribute传递过来的对象属性：<span th:text="${employee.name}">sp</span> <br/>
+	获取请求参数：<span th:text="${param.paramkey}">sp</span> <br/>
+	获取session范围的attribute传递过来的数据：<span th:text="${session.key1}">sp</span> <br/>
+	获取application范围的attribute传递过来的数据：<span th:text="${application.key1}">sp</span> <br/>
+	
+	<h1>注意：“#对象”是Thymeleaf中预定义的对象</h1>
+	
+	根据#request对象获取上下文路径：<span th:text="${#request.contextPath}">sp</span> <br/>
+	根据#session对象获取session id：<span th:text="${#session.id}">sp</span> <br/>
+	
+	#lists.isEmpty(列表对象)判断列表是否为空: <span th:text="${#lists.isEmpty(empList)? 'null list' : 'have items'}">sp</span> <br/>
+	
+	#dates.format 格式化日期<span th:text="*{#dates.format(sysdate,'yyyy-MM-dd HH:mm:ss SSS')}">sp</span><br/>
+	
+	通配表达式：<br/>
+	可以当${变量} 变量表达式来用：<span th:text="*{#dates.format(sysdate,'yyyy-MM-dd HH:mm:ss SSS')}">sp</span><br/>
+	可以将 th:object 捆绑的对象中属性直接提取：<br/>
+	<div th:object="${employee}">
+		<p th:text="*{sal}">p</p>
+		<p th:text="*{job}">p</p>
+		<p th:text="*{#dates.format(hiredate,'yyyy-MM-dd HH:mm:ss SSS')}">p</p>
+	</div>
+	<p th:text="*{employee.name}">p</p>
+	<a href="#" th:href="@{'/index.html'}">index.html</a><br/>
+	<a href="#" th:href="${'/index.html'}">index.html</a><br/>
+	<form action="#" th:action="@{'/index.jsp'(empno=${employee.empno})}">
+		<input type="submit" value="submit">
+	</form>
+	Restful风格：<br/>
+	<a href="#" th:href="@{'/index.html/{empno}/getEmp'(empno=${employee.empno})}">index.html</a><br/>
+	默认三目运算符表达式：<br/>
+	<p th:class="${classKey}?:'c2'"> p text </p>
+	<p th:text="${classKey}?'true':'false'"> p text </p>
+	
+	Thymeleaf对标签属性的操作：<br/>
+	替换标签中内容 th:text ：<span th:text="'replace Text'">span text</span><br/>
+	替换交互组件的显示内容 th:value ：<input th:value="'replace input Text'" value="input Text"/><br/>
+	替换标签属性的通用替换 th:attr : <input value="input value" th:attr="style='font-size:2em'"/><br/>
+	
+	<input type="checkbox" name="active" th:checked="${'no'}" /><br/>
+	<input type="checkbox" name="active" th:checked="${'off'}" /><br/>
+	<input type="checkbox" name="active" th:checked="${'false'}" /><br/>
+	<input type="checkbox" name="active" th:checked="${'true'}" /><br/>
+	
+	if：<br/>
+	<a href="#" th:if="'off'">false a</a><br/>
+	<a href="#" th:if="'true'">true a</a><br/>
+	<!-- OGNL -->
+	<!-- <p th:each="emp,st:${empList}" th:text="${st.index + ' | ' + st.count }+${' | ' +st.odd + ' | ' +st.even + ' | ' +st.size + ' | '}+${emp.name}">p text</p> -->
+	
+	引入外部页面的片段：<br/>
+	<div id="indexDiv" th:insert="~{menu::#frag2}">
+		<p> index p text </p>
+	</div>
+	
+	<p th:utext="'replace <b>text</b>'"> p text </p>
+	
+	<p>[[${employee.name}]]</p>
+	
+	<p th:each="emp,st:${empList}" th:text="${emp}">p text</p>
+	
+</body>
+</html>
